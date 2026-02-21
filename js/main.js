@@ -120,30 +120,64 @@ const VARIETIES = [
 })();
 
 /* ── Active Nav Link Highlighting ── */
+/*
+ * FIX: replaced IntersectionObserver approach with scroll-position logic.
+ *
+ * WHY THE OLD CODE BROKE:
+ *  - threshold:0.45 means 45% of the section must be visible at once.
+ *    Tall sections like #collection (25-card grid) almost never reach
+ *    that threshold, so the observer callback never fires for them.
+ *  - The early `if (!entry.isIntersecting) return` meant stale active
+ *    states were never cleared when a section scrolled out of view.
+ *
+ * NEW APPROACH:
+ *  - On every scroll (throttled via rAF), find whichever section's top
+ *    edge is closest to — but still above — the middle of the viewport.
+ *  - That section is "active". Works regardless of section height.
+ */
 (function initActiveNav() {
   const links = Array.from(document.querySelectorAll('.site-nav a[href^="#"]'));
-  if (!links.length || !('IntersectionObserver' in window)) return;
+  if (!links.length) return;
 
+  // Build [link, section] pairs — skip any href that has no matching element
   const pairs = links
     .map(link => [link, document.getElementById(link.getAttribute('href').slice(1))])
     .filter(([, section]) => section);
 
-  const observer = new IntersectionObserver(
-    entries => {
-      entries.forEach(entry => {
-        if (!entry.isIntersecting) return;
-        pairs.forEach(([link, section]) => {
-          const active = section === entry.target;
-          link.classList.toggle('is-active', active);
-          if (active) link.setAttribute('aria-current', 'page');
-          else link.removeAttribute('aria-current');
-        });
-      });
-    },
-    { threshold: 0.45, rootMargin: '-10% 0px -30% 0px' }
-  );
+  if (!pairs.length) return;
 
-  pairs.forEach(([, section]) => observer.observe(section));
+  function setActive(activeLink) {
+    pairs.forEach(([link]) => {
+      const on = link === activeLink;
+      link.classList.toggle('is-active', on);
+      if (on) link.setAttribute('aria-current', 'page');
+      else     link.removeAttribute('aria-current');
+    });
+  }
+
+  function update() {
+    // The trigger line is 40% down the viewport
+    const trigger = window.scrollY + window.innerHeight * 0.4;
+
+    // Walk pairs in reverse; pick the last section whose top is above trigger
+    let best = pairs[0];
+    for (const pair of pairs) {
+      const [, section] = pair;
+      if (section.offsetTop <= trigger) best = pair;
+    }
+    setActive(best[0]);
+  }
+
+  // Throttle with requestAnimationFrame so it stays smooth
+  let ticking = false;
+  window.addEventListener('scroll', () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => { update(); ticking = false; });
+  }, { passive: true });
+
+  // Run once on load
+  update();
 })();
 
 /* ── Copyright Year ── */
