@@ -553,25 +553,28 @@ p { margin-block: 0; }
 }
 
 .variety-grid {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
   gap: 0.8rem;
 }
 
 .variety-card {
+  flex: 0 0 calc((100% - 3.2rem) / 5);
   border-radius: var(--radius-md);
   border: 1px solid var(--line);
   background: linear-gradient(155deg, var(--surface-3), var(--surface));
   padding: 0.75rem;
   display: grid;
-  grid-template-rows: auto 1fr auto;
+  grid-template-rows: auto auto 1fr;
   gap: 0.55rem;
-  transition: transform 200ms ease, border-color 200ms ease;
-  cursor: default;
+  transition: transform 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
+  cursor: pointer;
 }
-.variety-card:hover {
+.variety-card.is-highlighted {
   transform: translateY(-3px);
   border-color: rgba(200,146,60,0.5);
+  box-shadow: 0 14px 34px rgba(0,0,0,0.24);
 }
 
 /* Thumb images are 200x200 → keep 1:1 */
@@ -598,6 +601,38 @@ p { margin-block: 0; }
   text-transform: uppercase;
   color: var(--gold-dim);
 }
+.variety-details {
+  display: grid;
+  align-content: end;
+  justify-items: center;
+  text-align: center;
+  gap: 0.65rem;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 220ms ease, opacity 180ms ease;
+}
+.variety-card.is-highlighted .variety-details {
+  max-height: 5rem;
+  opacity: 1;
+}
+.variety-order {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--gold-light);
+  background: rgba(200,146,60,0.1);
+  border: 1px solid rgba(200,146,60,0.36);
+  border-radius: 999px;
+  padding: 0.38rem 0.72rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 180ms ease, border-color 180ms ease;
+}
+.variety-order:hover { background: rgba(200,146,60,0.2); border-color: var(--gold); }
+.variety-order:focus-visible { outline: 2px solid var(--gold-light); outline-offset: 3px; }
+.variety-order svg { width: 0.95rem; height: 0.95rem; fill: var(--gold-light); }
 
 /* ══════════════════════════════════════
    ABOUT / STORY
@@ -676,6 +711,79 @@ p { margin-block: 0; }
   margin-top: 1.6rem;
   position: relative;
 }
+
+.contact-form {
+  width: min(100%, 700px);
+  margin: 2rem auto 0;
+  text-align: left;
+  position: relative;
+  display: grid;
+  gap: 1rem;
+}
+.contact-form .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.contact-form .field { display: grid; gap: 0.45rem; }
+.contact-form label { color: var(--ink-soft); font-size: 0.78rem; font-weight: 600; }
+.contact-form input,
+.contact-form select,
+.contact-form textarea {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: rgba(14,11,9,0.72);
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.88rem;
+  padding: 0.78rem 0.9rem;
+  outline: none;
+  transition: border-color 180ms ease, box-shadow 180ms ease;
+}
+.contact-form input:focus,
+.contact-form select:focus,
+.contact-form textarea:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(200,146,60,0.12); }
+.contact-form input::placeholder,
+.contact-form textarea::placeholder { color: var(--ink-dim); }
+.contact-form select { color-scheme: dark; }
+.contact-form textarea { resize: vertical; min-height: 110px; }
+.contact-form button { justify-self: start; }
+.form-message { display: none; margin: 0 !important; max-width: none !important; color: var(--gold-light); font-size: 0.85rem; }
+.form-message.show { display: block; }
+.form-message.error { color: #ffaaa0; }
+.form-note { margin: 0 !important; max-width: none !important; font-size: 0.78rem; color: var(--ink-soft); }
+.form-note a { color: var(--gold-light); }
+.whatsapp-contact {
+  width: min(100%, 700px);
+  margin: 1.4rem auto 0;
+  padding: 1.2rem 1.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  text-align: left;
+  border: 1px solid rgba(200,146,60,0.34);
+  border-radius: var(--radius-md);
+  background: linear-gradient(120deg, rgba(200,146,60,0.1), rgba(255,255,255,0.02));
+  position: relative;
+}
+.whatsapp-copy strong { display: block; color: var(--ink); font-size: 0.95rem; }
+.whatsapp-copy span { display: block; margin-top: 0.25rem; color: var(--ink-soft); font-size: 0.8rem; }
+.whatsapp-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  flex: 0 0 auto;
+  padding: 0.78rem 1rem;
+  border-radius: 999px;
+  border: 1px solid var(--gold);
+  background: var(--gold);
+  color: #17110a;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: transform 180ms ease, background 180ms ease;
+}
+.whatsapp-button:hover { transform: translateY(-2px); background: var(--gold-light); }
+.whatsapp-button svg { width: 1.1rem; height: 1.1rem; fill: currentColor; }
 
 /* ══════════════════════════════════════
    FOOTER
@@ -773,6 +881,7 @@ p { margin-block: 0; }
   opacity: 1;
   transform: none;
 }
+.variety-card.is-highlighted.reveal.is-visible { transform: translateY(-3px); }
 .delay-1 { transition-delay: 110ms; }
 .delay-2 { transition-delay: 220ms; }
 .delay-3 { transition-delay: 330ms; }
@@ -789,7 +898,7 @@ p { margin-block: 0; }
   .gallery-card-lg img { aspect-ratio: 16 / 9; }
 
   .pillars { grid-template-columns: 1fr 1fr; }
-  .variety-grid { grid-template-columns: repeat(4, 1fr); }
+  .variety-card { flex-basis: calc((100% - 2.4rem) / 4); }
 
   .floating-badge { left: 0.8rem; top: 0.8rem; }
 }
@@ -823,14 +932,18 @@ p { margin-block: 0; }
   }
 
   .pillars,
-  .variety-grid,
   .footer-grid { grid-template-columns: 1fr; }
+  .variety-card { flex-basis: 100%; }
+  .contact-form .form-row { grid-template-columns: 1fr; }
+  .variety-details { max-height: 5rem; opacity: 1; }
+  .whatsapp-contact { align-items: stretch; flex-direction: column; }
+  .whatsapp-button { width: 100%; }
   .card-metrics { grid-template-columns: repeat(3, 1fr); }
   .gallery-grid { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 480px) {
-  .variety-grid { grid-template-columns: repeat(2, 1fr); }
+  .variety-card { flex-basis: calc((100% - 0.8rem) / 2); }
   .card-metrics { grid-template-columns: 1fr; }
 }
 
