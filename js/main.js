@@ -22,27 +22,27 @@ const VARIETIES = [
   {
     name: 'Medjool',
     note: 'Soft caramel',
-    image: 'medjool.jpg'
+    image: 'Medjool.jpg'
   },
   {
     name: 'Ajwa',
     note: 'Rich and mellow',
-    image: 'ajwa.jpg'
+    image: 'Ajwa.jpg'
   },
   {
     name: 'Mabroom',
     note: 'Chewy and elegant',
-    image: 'mabroom.jpg'
+    image: 'Mabroom.jpg'
   },
   {
     name: 'Sagai',
     note: 'Two lovely textures',
-    image: 'sagai.jpg'
+    image: 'Sagai.jpg'
   },
   {
     name: 'Safawi',
     note: 'Soft caramel',
-    image: 'safawi.jpg'
+    image: 'Safawi.jpg'
   },
   {
     name: 'Sukkari',
@@ -67,12 +67,12 @@ const VARIETIES = [
   { 
     name: 'Safri', 
     note: 'Firm and delicate', 
-    image: 'safari.png' 
+    image: 'Safari.png' 
   },
   { 
     name: 'Amber', 
     note: 'Large and luxurious', 
-    image: 'ambar.jpg' 
+    image: 'Ambar.jpg' 
   },
   { 
     name: 'Sukkari Rutab', 
