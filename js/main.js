@@ -19,31 +19,104 @@ const WHATSAPP_CATEGORY_LINKS = {
 };
 
 const VARIETIES = [
-  { name: 'Medjool', note: 'Soft caramel', thumb: 1 },
-  { name: 'Ajwa', note: 'Rich and mellow', thumb: 2 },
-  { name: 'Mabroom', note: 'Chewy and elegant', thumb: 3 },
-  { name: 'Sagai', note: 'Two lovely textures', thumb: 4 },
-  { name: 'Safawi', note: 'Deep natural sweetness', thumb: 5 },
-  { name: 'Sukkari', note: 'Gentle honey notes', thumb: 1 },
-  { name: 'Khudri', note: 'A balanced bite', thumb: 2 },
-  { name: 'Khalas', note: 'Warm toffee finish', thumb: 3 },
-  { name: 'Rabea', note: 'Light and sweet', thumb: 4 },
-  { name: 'Safri', note: 'Firm and delicate', thumb: 5 },
-  { name: 'Anbara', note: 'Large and luxurious', thumb: 1 },
-  { name: 'Wanan', note: 'Soft golden sweetness', thumb: 2 },
-  { name: 'Deglet Noor', note: 'Delicate texture', thumb: 3 },
-  { name: 'Zahidi', note: 'Delicately nutty', thumb: 4 },
-  { name: 'Barhi', note: 'Soft and buttery', thumb: 5 },
-  { name: 'Sagai Premium', note: 'A crisp-soft contrast', thumb: 1 },
-  { name: 'Rutab', note: 'Fresh seasonal pick', thumb: 2 },
-  { name: 'Maktoum', note: 'Rich and satisfying', thumb: 3 },
-  { name: 'Mabroom Royal', note: 'Long and refined', thumb: 4 },
-  { name: 'Khenaizi', note: 'Deep, rich finish', thumb: 5 },
-  { name: 'Lulu', note: 'Silky and delicate', thumb: 1 },
-  { name: 'Fard', note: 'Naturally semi-dry', thumb: 2 },
-  { name: 'Amber', note: 'Smooth sweet finish', thumb: 3 },
-  { name: 'Majdool Reserve', note: 'Made for gifting', thumb: 4 },
-  { name: 'Seasonal Select', note: 'A seasonal favourite', thumb: 5 },
+  {
+    name: 'Medjool',
+    note: 'Soft caramel',
+    image: 'medjool.jpg'
+  },
+  {
+    name: 'Ajwa',
+    note: 'Rich and mellow',
+    image: 'ajwa.jpg'
+  },
+  {
+    name: 'Mabroom',
+    note: 'Chewy and elegant',
+    image: 'mabroom.jpg'
+  },
+  {
+    name: 'Sagai',
+    note: 'Two lovely textures',
+    image: 'sagai.jpg'
+  },
+  {
+    name: 'Safawi',
+    note: 'Soft caramel',
+    image: 'safawi.jpg'
+  },
+  {
+    name: 'Sukkari',
+    note: 'Rich and mellow',
+    image: 'Sukkari.png'
+  },
+  {
+    name: 'Kudhari',
+    note: 'Chewy and elegant',
+    image: 'Khudari.png'
+  },
+  {
+    name: 'Khalas',
+    note: 'Two lovely textures',
+    image: 'khalas.png'
+  },
+  { 
+    name: 'Rabia', 
+    note: 'Light and sweet', 
+    image: 'Rabia.png'
+  },
+  { 
+    name: 'Safri', 
+    note: 'Firm and delicate', 
+    image: 'safari.png' 
+  },
+  { 
+    name: 'Amber', 
+    note: 'Large and luxurious', 
+    image: 'ambar.jpg' 
+  },
+  { 
+    name: 'Sukkari Rutab', 
+    note: 'Soft golden sweetness', 
+    image: 'Sukkari Rutab.png' 
+  },
+  { 
+    name: 'Mashrook', 
+    note: 'Delicate texture', 
+    image: 'Mashrook.png' },
+  { 
+    name: 'Zahedi',
+    note: 'Delicately nutty', 
+    image: 'Zahedi.jpg' 
+  },
+  { 
+    name: 'Barni', 
+    note: 'Soft and buttery', 
+    image: 'Barni.png' 
+  },
+  { 
+    name: 'Saudi Majdool', 
+    note: 'A crisp-soft contrast', 
+    image: 'Saudi Majdool.png' 
+  },
+  { 
+    name: 'Siri', 
+    note: 'Rich and satisfying', 
+    image: 'Siri.png' },
+  { 
+    name: 'Lulu', 
+    note: 'Silky and delicate', 
+    image: 'Lulu.png' 
+  },
+  {
+    name: 'Fard', 
+    note: 'Naturally semi-dry', 
+    image: 'Fard.png' 
+  },
+  { 
+    name: 'Kimia', 
+    note: 'A seasonal favourite', 
+    image: 'Kimia.png' 
+  },
 ];
 
 /* ── Render Variety Grid ── */
@@ -53,13 +126,13 @@ const VARIETIES = [
 
   const fragment = document.createDocumentFragment();
 
-  VARIETIES.forEach(({ name, note, thumb }) => {
+  VARIETIES.forEach(({ name, note, image }) => {
     const card = document.createElement('article');
     card.className = 'variety-card reveal';
 
     const img = document.createElement('img');
     img.className = 'variety-thumb';
-    img.src = `assets/images/thumbs/thumb-${thumb}.jpg`;
+    img.src = `assets/images/thumbs/${image}`;
     img.alt = `${name} dates`;
     img.width = 200;
     img.height = 200;
@@ -241,7 +314,7 @@ const VARIETIES = [
       const on = link === activeLink;
       link.classList.toggle('is-active', on);
       if (on) link.setAttribute('aria-current', 'page');
-      else     link.removeAttribute('aria-current');
+      else link.removeAttribute('aria-current');
     });
   }
 
